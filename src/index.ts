@@ -19,7 +19,7 @@ const main = async () => {
       console.log("--error connecting to database---" + config.mongoose.url);
     });
 
-  server = app.listen(8080, () => {
+  server = app.listen(config.port || 8080, () => {
     logger.info(`Listening to port 8080`);
   });
 
