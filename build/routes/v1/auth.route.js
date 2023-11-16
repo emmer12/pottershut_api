@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const auth_controller_1 = require("../../controllers/auth.controller");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const validate_1 = __importDefault(require("../../middlewares/validate"));
+const mail_service_1 = require("../../services/mail.service");
+const express = require("express");
+const authValidation = require("../../validations/auth.validation");
+const passport = require("passport");
+const authRoute = express.Router();
+authRoute.post("/register", (0, validate_1.default)(authValidation.register), auth_controller_1.register);
+authRoute.post("/login/:isAdmin?", (0, validate_1.default)(authValidation.login), auth_controller_1.login);
+authRoute.post("/google/callback", passport.authenticate("google-token", { session: false }), auth_controller_1.googleAuth);
+authRoute.post("/logout", (0, auth_1.default)("logout"), auth_controller_1.logout);
+authRoute.post("/verify", (0, validate_1.default)(authValidation.otp), auth_controller_1.verify);
+authRoute.post("/resend", (0, validate_1.default)(authValidation.resend), auth_controller_1.resend);
+authRoute.get("/user", (0, auth_1.default)(), auth_controller_1.currentUser);
+authRoute.get("/mail-test", () => (0, mail_service_1.sendOtp)("1234", "emmer@mail.com"));
+exports.default = authRoute;
