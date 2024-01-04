@@ -1,5 +1,5 @@
 import mongoose, { Document, model, Schema, Types } from "mongoose";
-import { approval_status, visibility_status } from "../config/constants";
+import { approval_status, visibility_status, product_type } from "../config/constants";
 import slug from "mongoose-slug-generator";
 import config from "../config/config";
 
@@ -16,9 +16,16 @@ export interface IProduct {
     price: number;
     tags?: any
     visibility_status: string;
+    product_type: string;
     approval_status: string;
     meta_title?: string;
     meta_description?: string;
+    weight?: number;
+    length?: number;
+    height?: number;
+    width?: number;
+    is_featured: boolean;
+    is_pad: boolean
 }
 
 const productSchema = new Schema<IProduct>(
@@ -32,19 +39,38 @@ const productSchema = new Schema<IProduct>(
             type: Number,
             required: true
         },
-        category: { type: Types.ObjectId, ref: "BlogCategory", required: true },
+        weight: { type: Number },
+        length: { type: Number },
+        height: { type: Number },
+        width: { type: Number },
+        category: { type: Types.ObjectId, ref: "ProductCategory", required: true },
         images: [
-            { type: Types.ObjectId, ref: "ProductImages", default: [] },
+            {
+                file_path: { type: String },
+                full_url: { type: String },
+                mime_type: { type: String },
+            }
         ],
         tags: { type: Array, required: false },
         approval_status: {
             type: String, enum: [approval_status.APPROVED, approval_status.DISAPPROVED, approval_status.PENDING], default: approval_status.PENDING
+        },
+        product_type: {
+            type: String, enum: [product_type.PHYSICAL, product_type.DIGITAL], default: product_type.PHYSICAL
         },
         visibility_status: {
             type: String, enum: [visibility_status.DRAFT, visibility_status.LIVE], default: visibility_status.DRAFT
         },
         meta_title: { type: String, required: false },
         meta_description: { type: String, required: false },
+        is_featured: {
+            type: Boolean,
+            default: false
+        },
+        is_pad: {
+            type: Boolean,
+            default: false
+        }
     },
     { timestamps: true }
 );

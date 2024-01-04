@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createStore,
+  getStore
 } from "../../controllers/store.controller";
 import auth from "../../middlewares/auth";
 import validate from "../../middlewares/validate";
@@ -16,6 +17,15 @@ storeRoute.post(
   ],
   createStore
 );
+
+storeRoute.get(
+  "/admin",
+  [
+    auth(),
+  ],
+  getStore
+);
+
 
 
 

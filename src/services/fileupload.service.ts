@@ -3,6 +3,7 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import { allowed_file_size, array_of_allowed_img_file_types, array_of_allowed_img_files } from "../utils";
+import config from "../config/config";
 
 export const readFile = (
   req: express.Request,
@@ -127,9 +128,9 @@ export const handleMultipleFile = (
       });
 
       paths.push({
-        field: file.fieldname,
         file_path: options.path,
         mime_type: file.mimetype,
+        full_url: `${config.server_url}/${options.path}`
       });
     });
   });

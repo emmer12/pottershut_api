@@ -14,7 +14,7 @@ import {
 import catchAsync from "../utils/catchAsync";
 import Blog from "../models/blog.model";
 import { ICategory } from "../models/blog.category.model";
-import { approval_status, visibility_status } from "../config/constants";
+import { approval_status, limits, visibility_status } from "../config/constants";
 import { handleMultipleFile, handleSingleImage } from "../services/fileupload.service";
 import { saveProduct, getProductBySlug, getProductById, updateProductById } from "../services/product.service";
 import { getStore } from "../services/store.service";
@@ -130,6 +130,33 @@ const updateProduct = catchAsync(async (req, res) => {
 
 const getProductFeed = catchAsync(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || limits.APP;
+  const skip = (page - 1) * limit;
+
+  const match: any = {}
+
+  if (req.query.category) {
+    match.category = req.query.category
+  }
+
+
+  const products = await Product.find({
+    visibility_status: visibility_status.LIVE,
+    ...match
+  }).limit(limit).skip(skip).sort({ createdAt: -1 }).populate('category')
+
+  const total = await Product.countDocuments({
+    visibility_status: visibility_status.LIVE,
+    ...match
+  });
+
+  res.status(httpStatus.OK).send({ data: products, total, page });
+});
+
+
+const getVendorProducts = catchAsync(async (req, res) => {
+  const { role, id } = req.user
+  const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
@@ -139,22 +166,23 @@ const getProductFeed = catchAsync(async (req, res) => {
     match.category = req.query.category
   }
 
-  console.log(match)
 
+  if (role == "vendor") {
+    match.user = id
+  }
 
   const products = await Product.find({
-    visibility_status: visibility_status.LIVE,
     ...match
   }).limit(limit).skip(skip).sort({ createdAt: -1 }).populate('category')
 
 
   const total = await Product.countDocuments({
-    visibility_status: visibility_status.LIVE,
     ...match
   });
 
   res.status(httpStatus.OK).send({ data: products, total, page });
 });
+
 
 
 
@@ -248,5 +276,6 @@ export {
   updateProduct,
   deleteBlog,
   upload,
-  uploadMedia
+  uploadMedia,
+  getVendorProducts
 };

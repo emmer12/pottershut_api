@@ -56,3 +56,14 @@ export const media_model = {
   TRIP: "Trip",
   EVENT: "Event",
 };
+
+export const product_type = {
+  PHYSICAL: "Physical Product",
+  DIGITAL: "Digital Product",
+};
+
+export const limits = {
+  SLIDER: 10,
+  APP: 20,
+  RELATED_LIMIT: 4
+}

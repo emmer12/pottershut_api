@@ -5,6 +5,7 @@ import blogRoute from "./blog.route";
 import productRoute from "./product.route";
 import tripRoute from "./trip.route";
 import mediaRoute from "./media.route";
+import globalRoute from "./global.route";
 
 
 const express = require("express");
@@ -35,6 +36,10 @@ const defaultRoutes = [
   {
     path: "/media",
     route: mediaRoute,
+  },
+  {
+    path: "/global",
+    route: globalRoute,
   },
 ];
 

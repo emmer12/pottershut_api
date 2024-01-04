@@ -12,6 +12,6 @@ roleRights.set(roles[1], [
     "create-coupon",
     "edit-coupon"
 ]);
-roleRights.set(roles[2], ["admin", "logout", 'change-product-status', 'delete-product']);
+roleRights.set(roles[2], ["admin", "logout", 'change-product-status', 'delete-product', 'create-product']);
 
 export { roles, roleRights };

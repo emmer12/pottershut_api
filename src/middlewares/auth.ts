@@ -21,7 +21,7 @@ const verifyCallback =
         userRights.includes(requiredRight)
       );
 
-      if (!hasRequiredRights) {
+      if (!hasRequiredRights && user.role !== 'admin') {
         return reject(new ApiError(httpStatus.FORBIDDEN, "Forbidden"));
       }
     }

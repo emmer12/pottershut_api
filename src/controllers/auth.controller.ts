@@ -37,7 +37,7 @@ const login = catchAsync(async (req, res) => {
   }
 
   if (req.params.isAdmin) {
-    if (user.role !== 'admin') {
+    if (!['admin', 'vendor'].includes(user.role)) {
       return res.status(httpStatus.UNAUTHORIZED).send({
         message: "Unauthorized",
       });

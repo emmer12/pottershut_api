@@ -1,9 +1,12 @@
 import express from "express";
 import {
+  getProductFeed,
   createProduct,
   updateProduct,
   getProductId,
-  uploadMedia
+  uploadMedia,
+  getVendorProducts,
+  getAllCategories
 } from "../../controllers/product.controller";
 import auth from "../../middlewares/auth";
 import validate from "../../middlewares/validate";
@@ -14,10 +17,10 @@ import * as sharedValidations from "../../validations/shared.validate";
 const productRoute = express.Router();
 
 
-// blogRoute.get(
-//   "/",
-//   getBlogFeed
-// );
+productRoute.get(
+  "/",
+  getProductFeed
+);
 
 
 productRoute.post(
@@ -25,6 +28,42 @@ productRoute.post(
   [auth("create-product"), validate(productValidations.createProduct)],
   createProduct
 );
+
+
+productRoute.post(
+  "/media",
+  [auth()],
+  uploadMedia
+);
+
+
+productRoute.get(
+  "/categories",
+  getAllCategories
+);
+
+// Admin route
+
+productRoute.get(
+  "/admin",
+  [auth()],
+  getVendorProducts
+);
+
+productRoute.patch(
+  "/admin/:id",
+  [auth("change-product-status"), validate(sharedValidations.updateApprovalStatus)],
+  changeStatus
+);
+
+productRoute.delete(
+  "/admin/:id",
+  [auth("delete-product")],
+  deleteStatus
+);
+
+
+
 
 productRoute.patch(
   "/:id",
@@ -38,26 +77,16 @@ productRoute.get(
   getProductId
 );
 
-productRoute.post(
-  "/media",
-  [auth()],
-  uploadMedia
-);
 
 
-// Admin route
 
-productRoute.patch(
-  "/admin/:id",
-  [auth("change-product-status"), validate(sharedValidations.updateApprovalStatus)],
-  changeStatus
-);
 
-productRoute.delete(
-  "/admin/:id",
-  [auth("delete-product")],
-  deleteStatus
-);
+
+// blogRoute.get(
+//   "/",
+//   getBlogFeed
+// );
+
 
 
 

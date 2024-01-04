@@ -7,7 +7,7 @@ const saveProduct = async (payload: IProduct, user_id: string, store_id: string)
   payload.store = store_id;
 
   const response = await Product.create(payload);
-  return response[0];
+  return response;
 };
 
 const getProductById = async (id: string) => {
