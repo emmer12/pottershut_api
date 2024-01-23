@@ -22,7 +22,13 @@ const getStore = async (user_id: string) => {
     return store;
 }
 
+const getStoreById = async (store_id: string) => {
+    return (await Store.findById(store_id)).populate('user');
+}
+
+
 export {
     saveStore,
-    getStore
+    getStore,
+    getStoreById
 };

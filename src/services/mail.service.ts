@@ -34,4 +34,19 @@ const sendKycNotification = () => {
   return mailer(content, `KYC Notification`, toEmail, "high");
 };
 
-export { sendOtp, sendKycNotification };
+
+const sendVendorOrderNotification = (email) => {
+  const content = `
+  <div style="max-width: 600px; ">
+    <p><span style="font-weight: 400;">Hi there, </span></p>
+    <p>&nbsp;</p>
+    <p><span style="font-weight: 400;">You have a new order</span></p>
+    <p><span style="font-weight: 400;">Regards,</span></p>
+    <p><span style="font-weight: 400;">PortersHut</span></p>
+  </div>
+`;
+
+  return mailer(content, `New Order Notification`, email, "high");
+}
+
+export { sendOtp, sendKycNotification, sendVendorOrderNotification };

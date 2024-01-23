@@ -67,3 +67,13 @@ export const limits = {
   APP: 20,
   RELATED_LIMIT: 4
 }
+
+export const payment_method = {
+  FLUTTERWAVE: "Flutterwave",
+}
+
+export const shipping_status = {
+  PENDING: "Pending",
+  SHIPPED: "Shipped",
+}
+

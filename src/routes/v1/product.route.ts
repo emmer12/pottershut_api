@@ -6,7 +6,8 @@ import {
   getProductId,
   uploadMedia,
   getVendorProducts,
-  getAllCategories
+  getAllCategories,
+  getProductSlug
 } from "../../controllers/product.controller";
 import auth from "../../middlewares/auth";
 import validate from "../../middlewares/validate";
@@ -63,16 +64,20 @@ productRoute.delete(
 );
 
 
+productRoute.get(
+  "/:slug",
+  getProductSlug
+);
 
 
 productRoute.patch(
-  "/:id",
+  "/admin/:id",
   [auth("update-product"), validate(productValidations.updateProduct)],
   updateProduct
 );
 
 productRoute.get(
-  "/:id",
+  "/admin/:id",
   [auth("edit-product")],
   getProductId
 );
