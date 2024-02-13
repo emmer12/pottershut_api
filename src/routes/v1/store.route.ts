@@ -9,12 +9,10 @@ import * as storeValidations from "../../validations/store.validation";
 const storeRoute = express.Router();
 
 
+
 storeRoute.post(
   "/",
-  [
-    auth(),
-    validate(storeValidations.createStore),
-  ],
+  validate(storeValidations.createStore),
   createStore
 );
 

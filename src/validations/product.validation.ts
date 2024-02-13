@@ -18,6 +18,9 @@ const createProduct = {
         width: Joi.number(),
         weight: Joi.number(),
         length: Joi.number(),
+        listing_type: Joi.string(),
+        group_price: Joi.number(),
+        booking_required: Joi.number(),
     }),
 };
 const updateProduct = {

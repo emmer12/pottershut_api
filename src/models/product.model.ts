@@ -1,5 +1,5 @@
 import mongoose, { Document, model, Schema, Types } from "mongoose";
-import { approval_status, visibility_status, product_type } from "../config/constants";
+import { approval_status, visibility_status, product_type, listing_type } from "../config/constants";
 import slug from "mongoose-slug-generator";
 import config from "../config/config";
 
@@ -17,6 +17,7 @@ export interface IProduct {
     tags?: any
     visibility_status: string;
     product_type: string;
+    listing_type: string;
     approval_status: string;
     meta_title?: string;
     meta_description?: string;
@@ -25,7 +26,10 @@ export interface IProduct {
     height?: number;
     width?: number;
     is_featured: boolean;
-    is_pad: boolean
+    is_pad: boolean;
+    booking_required: number;
+    booking_acquired: number;
+    group_price: number
 }
 
 const productSchema = new Schema<IProduct>(
@@ -58,6 +62,9 @@ const productSchema = new Schema<IProduct>(
         product_type: {
             type: String, enum: [product_type.PHYSICAL, product_type.DIGITAL], default: product_type.PHYSICAL
         },
+        listing_type: {
+            type: String, enum: [listing_type.NORMAL, listing_type.WEAVEPAD], default: listing_type.NORMAL
+        },
         visibility_status: {
             type: String, enum: [visibility_status.DRAFT, visibility_status.LIVE], default: visibility_status.DRAFT
         },
@@ -67,6 +74,9 @@ const productSchema = new Schema<IProduct>(
             type: Boolean,
             default: false
         },
+        booking_required: { type: Number },
+        booking_acquired: { type: Number },
+        group_price: { type: Number },
         is_pad: {
             type: Boolean,
             default: false

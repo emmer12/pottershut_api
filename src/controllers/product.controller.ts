@@ -32,6 +32,7 @@ const createProduct = catchAsync(async (req, res) => {
   if (!store) return res.status(httpStatus.NOT_FOUND).send({ message: "Store not found" });
   if (store.approval_status !== approval_status.APPROVED) return res.status(httpStatus.NOT_FOUND).send({ message: "Store has as not yet been approved" });
 
+
   await saveProduct(body, user._id, store._id);
 
   res.status(httpStatus.OK).send({ message: "created successfully" });
@@ -262,6 +263,19 @@ const uploadMedia = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ media });
 });
 
+const uploadCategoryMedia = catchAsync(async (req, res) => {
+  const { body: data }: { body: any } = req;
+
+  const media = await handleSingleImage(req, true, 'products').catch((err) => {
+    res.status(httpStatus.UNSUPPORTED_MEDIA_TYPE).send({ message: err });
+  })
+
+  res.status(httpStatus.OK).send({ media });
+});
+
+
+
+
 
 
 export {
@@ -277,5 +291,6 @@ export {
   deleteBlog,
   upload,
   uploadMedia,
+  uploadCategoryMedia,
   getVendorProducts
 };

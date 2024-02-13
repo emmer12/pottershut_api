@@ -62,6 +62,11 @@ export const product_type = {
   DIGITAL: "Digital Product",
 };
 
+export const listing_type = {
+  NORMAL: "normal",
+  WEAVEPAD: "weavepad",
+};
+
 export const limits = {
   SLIDER: 10,
   APP: 20,

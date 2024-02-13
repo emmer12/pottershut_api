@@ -1,10 +1,12 @@
 import Product, { IProduct } from "../models/product.model";
 import ProductCategory, { IPCategory } from "../models/product.category.model";
-import { visibility_status } from "../config/constants";
+import { visibility_status, listing_type } from "../config/constants";
 
 const saveProduct = async (payload: IProduct, user_id: string, store_id: string) => {
   payload.user = user_id;
   payload.store = store_id;
+
+  payload.is_pad = payload.listing_type == listing_type.WEAVEPAD ? true : false
 
   const response = await Product.create(payload);
   return response;

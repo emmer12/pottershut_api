@@ -19,7 +19,9 @@ export interface IStore extends Document {
   user: any;
   default_currency_code?: string;
   revenue: number;
-  approval_status: string
+  approval_status: string;
+  earnings: number;
+  balance: number;
 }
 
 
@@ -61,7 +63,15 @@ const storeSchema = new mongoose.Schema<IStore>(
       type: String,
       enum: Object.values(approval_status),
       default: approval_status.PENDING
-    }
+    },
+    earnings: {
+      type: Number,
+      default: 0
+    },
+    balance: {
+      type: Number,
+      default: 0
+    },
   },
   {
     timestamps: true,

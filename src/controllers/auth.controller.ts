@@ -28,8 +28,6 @@ const login = catchAsync(async (req, res) => {
 
   const user = await getUserByEmail(email);
 
-
-
   if (!user) {
     return res.status(httpStatus.UNAUTHORIZED).send({
       message: "Invalid credentials",
@@ -43,8 +41,6 @@ const login = catchAsync(async (req, res) => {
       });
     }
   }
-
-
 
 
 

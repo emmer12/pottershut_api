@@ -5,9 +5,13 @@ import {
   updateProduct,
   getProductId,
   uploadMedia,
+  uploadCategoryMedia,
   getVendorProducts,
   getAllCategories,
-  getProductSlug
+  getProductSlug,
+  createCategory,
+  updateCategory,
+  deleteCategory
 } from "../../controllers/product.controller";
 import auth from "../../middlewares/auth";
 import validate from "../../middlewares/validate";
@@ -37,11 +41,36 @@ productRoute.post(
   uploadMedia
 );
 
+productRoute.post(
+  "/category/media",
+  [auth()],
+  uploadCategoryMedia
+);
+
+
 
 productRoute.get(
   "/categories",
   getAllCategories
 );
+
+productRoute.post(
+  "/category",
+  [auth("admin")],
+  createCategory
+);
+
+productRoute.patch(
+  "/category/:id",
+  [auth("admin")],
+  updateCategory
+);
+productRoute.delete(
+  "/category/:id",
+  [auth("admin")],
+  deleteCategory
+);
+
 
 // Admin route
 
@@ -81,6 +110,9 @@ productRoute.get(
   [auth("edit-product")],
   getProductId
 );
+
+
+
 
 
 

@@ -35,7 +35,8 @@ export const handleSingleFile = (
   let options: any = {};
   if (saveLocally) {
     const dir = "uploads/files";
-    const uploadDir = path.join(process.cwd(), "public/uploads/files");
+
+    const uploadDir = path.join(process.cwd(), "public/uploads/images/");
     const filename = Date.now().toString() + "_" + file.originalname;
     options.uploadPath = uploadDir + "/" + filename;
     options.path = dir + "/" + filename;
@@ -61,13 +62,15 @@ export const handleSingleFile = (
 export const handleSingleImage = (
   req: express.Request,
   saveLocally?: boolean,
-  collection_name?: string
+  collection_name?: string,
+  visibility: 'private' | 'public' = "public",
+
 ): Promise<{ file_path: string }> => {
   const file = req.files[0];
   let options: any = {};
   if (saveLocally) {
-    const dir = "uploads/images/" + collection_name;
-    const uploadDir = path.join(process.cwd(), "public/uploads/images/") + collection_name;
+    const dir = collection_name ? "uploads/" + collection_name : "uploads";
+    const uploadDir = visibility == 'public' ? path.join(process.cwd(), `public/${dir}`) : path.join(process.cwd(), `storage/${dir}`);
     const filename = Date.now().toString() + "_" + file.originalname;
     options.uploadPath = uploadDir + "/" + filename;
     options.path = dir + "/" + filename;
